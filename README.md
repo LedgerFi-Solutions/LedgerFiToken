@@ -7,7 +7,7 @@ This contract holds and releases the pre-minted tokens for each stakeholder. The
 
 The contract in _VestingMaster.sol_ is the master contract that imports _VestingTeamStorage.sol_. The "VestingMaster" contract imports and creates child contracts for each stakeholder vesting. For example, the child contract for the "TEAM" vesting is created as _VestingTeam.sol_. Similarly, child contracts for other stakeholders are created, with only the parameter values differing between them.
 
-#### VestingMaster.sol
+### VestingMaster.sol
 The VestingMaster.sol contract has functions such as:
 
 - IERC20address() for assigning LFT address to "_token"
@@ -15,7 +15,7 @@ The VestingMaster.sol contract has functions such as:
 - getTokenInfo() to retrieve information about token allocation and release into wallets.
 - release() the function is called by the owner in particular intervals (TBD). The function iterates through each member in memberAddress and releases tokens if the vesting period is reached.
 
-#### VestingTeam.sol
+### VestingTeam.sol
 The _VestingTeam.sol_ contract is an upgradable child contract of the Vesting Master contract, using _VestingTeamProxy.sol_. The _VestingTeamStorage.sol_ contract contains all state variables required for vesting. It includes:
 
 - IERC20 _token - hold the address of LFT token contract
@@ -27,7 +27,7 @@ The _VestingTeam.sol_ contract is an upgradable child contract of the Vesting Ma
 
 _totalNumberVesting_ , _vestingTime_ and _vestingPercentage_ are initialsed in the proxy contract 
 
-#### VestingTeamproxy.sol
+### VestingTeamproxy.sol
 The _VestingTeamproxy.sol_ contract is the proxy for the VestingTeam contract, with its address used for TEAM vesting activities. The fallback function allows calling functions in the VestingTeam contract from the VestingTeamProxy.
 
 The proxy contract intialises all state variables in vestingTeamStorage.
@@ -40,7 +40,7 @@ The proxy contract intialises all state variables in vestingTeamStorage.
 
 ## 2. LedgerFiToken
 (Files in the folder TOKEN are of LFT token)
-#### LedgerFiTokenStorage.sol
+### LedgerFiTokenStorage.sol
 The main contract of LFT token is in  _LedgerFiToken.sol_, which imports ERC20Burnable contract. All state variables are created and intialised in _LedgerFiTokenStorage.sol_
 
 
@@ -70,7 +70,7 @@ vestingTeamPercent ,vestingAdvisorsPercent ,vestingSeedSalePercent, vestingPubli
 
 - burnThreshold- This data is used after integrating the LFT minting triggers with,  LedgerMail and LedgerChat.  In tokenomics, when tokens are awarded to users as a reward for sending mail, some tokens may not be allocated. These tokens will be moved to  the _burnTokenAddress_  contract by invoking the _addBurnTokenCount_  function and will be burned when the contract balance reaches the _burnThreshold_
 
-#### LedgerFiToken.sol
+### LedgerFiToken.sol
 
 The main contract of LFT token is in  _LedgerFiToken.sol_, which imports ERC20Burnable contract. All state variables are created and intialised in _LedgerFiTokenStorage.sol_
 
