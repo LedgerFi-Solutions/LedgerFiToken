@@ -20,7 +20,7 @@ contract VestingTeamStorage {
     uint8[] public vestingPercentage;
 
     //{totalNumberVesting} , {vestingTime} and {vestingPercentage} are initialsed in the proxy contract
-    //which importing the master contract
+    //which imports the storage contract
 
     address[] public membersAddress;
     uint256 totalAssignedToken;

@@ -30,8 +30,8 @@ abstract contract LedgerFiTokenStorage {
     address public immutable burnTokenAddress;
 
     constructor() {
-        maxSupply = 500000000 ether; //max supply
-        preMinedToken = 400000000 ether; //premined token count
+        maxSupply = 500000000 ether; //max supply  500 millions
+        preMinedToken = 400000000 ether; //premined token count 400 millions
 
         burnThreshold = 100000 ether; // when the burnTokensCount reaches burnThreshold, do burning
 
