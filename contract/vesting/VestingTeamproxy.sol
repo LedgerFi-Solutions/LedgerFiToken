@@ -10,7 +10,7 @@ contract VestingTeamproxy is VestingTeamStorage {
     constructor(address _VestingTeamaddress) {
         require(
             _VestingTeamaddress != address(0),
-            "Zero address givne for vesintg"
+            "Zero address given for vesting"
         );
         vestingTeamaddress = _VestingTeamaddress;
         _owner = msg.sender;
@@ -55,7 +55,10 @@ contract VestingTeamproxy is VestingTeamStorage {
 
     //function for upgradable contract
     function updateContractAddress(address child) external restricted {
-        require(child != address(0), "Zero address givne for vesintg");
+        require(
+            child != address(0),
+            "Cannot give zero address for vesting contract."
+        );
         vestingTeamaddress = child;
     }
 
@@ -63,22 +66,39 @@ contract VestingTeamproxy is VestingTeamStorage {
     /*                                  Fallback                                  */
     /* -------------------------------------------------------------------------- */
     //call back to actual contract vestingTeam
-    fallback() external {
-        address _impl = vestingTeamaddress;
+    function _delegate(address implementation) internal virtual {
         assembly {
-            // Check if adress not 0x0
-            let ptr := mload(0x40)
-            calldatacopy(ptr, 0, calldatasize())
-            let result := delegatecall(gas(), _impl, ptr, calldatasize(), 0, 0)
-            let size := returndatasize()
-            returndatacopy(ptr, 0, size)
+            // Copy msg.data. We take full control of memory in this inline assembly
+            // block because it will not return to Solidity code. We overwrite the
+            // Solidity scratch pad at memory position 0.
+            calldatacopy(0, 0, calldatasize())
+
+            // Call the implementation.
+            // out and outsize are 0 because we don't know the size yet.
+            let result := delegatecall(
+                gas(),
+                implementation,
+                0,
+                calldatasize(),
+                0,
+                0
+            )
+
+            // Copy the returned data.
+            returndatacopy(0, 0, returndatasize())
+
             switch result
+            // delegatecall returns 0 on error.
             case 0 {
-                revert(ptr, size)
+                revert(0, returndatasize())
             }
             default {
-                return(ptr, size)
+                return(0, returndatasize())
             }
         }
+    }
+
+    fallback() external {
+        _delegate(vestingTeamaddress);
     }
 }

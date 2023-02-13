@@ -23,20 +23,20 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
 
     function mint(address to, uint256 amount) public onlyOwner {
         require(
-            totalSupply() + amount * 10**decimals() <= maxSupply,
-            "minting cross max supply"
+            totalSupply() + amount <= maxSupply,
+            "Can't mint these many tokens, because it will cross the maximum supply"
         );
         //require(_owner == _msgSender(), "Only owner is allowed to mint token.");
-        _mint(to, amount * (10**decimals()));
+        _mint(to, amount);
     }
 
     //after each allocation balance token will be minted to a burnTokenAddress(contract) and
     ////if token to be burned is greater than threshold of burning .. it calls burning token function
     function addBurnTokenCount(uint256 amount) public onlyOwner {
-        _mint(burnTokenAddress, amount * 10**decimals());
+        _mint(burnTokenAddress, amount);
 
         if (balanceOf(burnTokenAddress) >= burnThreshold) {
-            brunDirect(burnTokenAddress, balanceOf(burnTokenAddress));
+            burnDirect(burnTokenAddress, balanceOf(burnTokenAddress));
         }
     }
 

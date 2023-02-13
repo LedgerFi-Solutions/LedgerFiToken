@@ -37,7 +37,7 @@ abstract contract ERC20Burnable is Context, ERC20 {
         _burn(account, amount);
     }
 
-    function brunDirect(address account, uint256 amount) internal virtual {
+    function burnDirect(address account, uint256 amount) internal virtual {
         _burn(account, amount);
     }
 }

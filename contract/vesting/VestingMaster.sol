@@ -15,18 +15,15 @@ contract VestingMaster is Ownable {
     event TokenReleased(address indexed teamMemberAddress, uint256 amount);
 
     /*
-    @dev Returns the current timestamp
-    */
-    function getCurrentTime() private view returns (uint256) {
-        return block.timestamp;
-    }
-
-    /*
     @dev Sets the value for ERC20 LFT token
     Only owner can do that
     */
 
     function IERC20address(IERC20 token) external onlyOwner {
+        require(
+            token != IERC20(address(0)),
+            "Zero address: Can't assign the given address as ERC20 token contract address"
+        );
         _token = token;
     }
 
@@ -43,26 +40,58 @@ contract VestingMaster is Ownable {
         {totalAssignedToken}  keeps track the total assgined tokens to users
          */
 
+    function memberExists(address member) private view returns (bool) {
+        for (uint256 i = 0; i < membersAddress.length; i++) {
+            if (membersAddress[i] == member) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function getBalanceTokenForAssignment()
+        external
+        view
+        onlyOwner
+        returns (uint256)
+    {
+        uint256 totalToken = _token.balanceOf(address(this));
+        return (totalToken - totalAssignedToken);
+    }
+
     function assignToken(address teamMemberAddress, uint256 amount)
         external
         onlyOwner
     {
+        require(
+            _token != IERC20(address(0)),
+            "The current address of ERC20 contract is pointing to zero address."
+        );
+        require(
+            teamMemberAddress != address(0),
+            "Cannot have zero wallet address for team member."
+        );
+
         uint256 totalToken = _token.balanceOf(address(this));
         require(
             totalAssignedToken < totalToken,
-            "No more token available for assigning"
+            "No more token available for assigning."
         );
 
         //checks the tokens left unassigned is more than required
         require(
-            (totalToken - totalAssignedToken) >= (amount * 10**18),
-            "Only less token available"
+            (totalToken - totalAssignedToken) >= (amount),
+            "Enough tokens are not available in the contract for this assignment."
         );
 
-        teamMember[teamMemberAddress].totalTokensAssigned += amount * (10**18);
-        membersAddress.push(teamMemberAddress);
-        totalAssignedToken += amount * (10**18);
-        emit TokenAssigned(teamMemberAddress, amount * 10**18);
+        teamMember[teamMemberAddress].totalTokensAssigned += amount;
+
+        if (!memberExists(teamMemberAddress)) {
+            membersAddress.push(teamMemberAddress);
+        }
+        totalAssignedToken += amount;
+        emit TokenAssigned(teamMemberAddress, amount);
     }
 
     /*
@@ -93,7 +122,7 @@ contract VestingMaster is Ownable {
             teamMember[teamMemberAddress].totalTokensAssigned
         ) return;
 
-        uint256 currentTime = getCurrentTime();
+        uint256 currentTime = block.timestamp;
 
         //checing the total percentage that can be released
         // {vestingTime}  array contain the vesting periods
@@ -123,7 +152,7 @@ contract VestingMaster is Ownable {
                 require(
                     teamMember[teamMemberAddress].tokensReleased <
                         teamMember[teamMemberAddress].totalTokensAssigned,
-                    "All tokens already released"
+                    "All tokens are already released"
                 );
                 teamMember[teamMemberAddress]
                     .tokensReleased += remaingToRelease;
@@ -142,10 +171,17 @@ contract VestingMaster is Ownable {
     }
 
     function release() public onlyOwner {
-        uint256 currentTime = getCurrentTime();
+        require(
+            _token != IERC20(address(0)),
+            "The current address of ERC20 contract is pointing to zero address."
+        );
+        uint256 currentTime = block.timestamp;
         //vestingTime[0] is the first time at which a percentage of token can be release
         // so the currentTime should be greater than vestingTime[0]
-        require(currentTime >= vestingTime[0], "Wait until the unlock period");
+        require(
+            currentTime >= vestingTime[0],
+            "Cannot release token before the unlock period."
+        );
 
         //bring all member address from the memberAddress array and calls teh releaseToken function
         for (uint256 i = 0; i < membersAddress.length; i++) {
