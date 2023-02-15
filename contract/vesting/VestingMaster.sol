@@ -5,7 +5,7 @@ import "./SafeERC20.sol";
 
 // this contract imported to contract of each stakeholders(here TEAM) which requires vesting..
 // all attributes are declared in Storage contract
-//VestingTeam, VestingTeamProxy, vestingTeamStorage are used to make upgradable contract
+//VestingTeam, VestingTeamProxy, vestingStorage are used to make upgradable contract
 contract VestingMaster is Ownable {
     using SafeERC20 for IERC20;
 

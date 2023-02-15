@@ -3,7 +3,7 @@
 pragma solidity 0.8.16;
 import "./SafeERC20.sol";
 
-contract VestingTeamStorage {
+contract VestingStorage {
     using SafeERC20 for IERC20;
 
     // ERC20 LFT token contract being held

@@ -2,7 +2,7 @@
 // OpenZeppelin Contracts (last updated v4.7.0) (access/Ownable.sol)
 
 pragma solidity 0.8.16;
-import "./VestingTeamStorage.sol";
+import "./VestingStorage.sol";
 import "./Context.sol";
 
 /**
@@ -17,7 +17,7 @@ import "./Context.sol";
  * `onlyOwner`, which can be applied to your functions to restrict their use to
  * the owner.
  */
-abstract contract Ownable is Context, VestingTeamStorage {
+abstract contract Ownable is Context, VestingStorage {
     event OwnershipTransferred(
         address indexed previousOwner,
         address indexed newOwner
