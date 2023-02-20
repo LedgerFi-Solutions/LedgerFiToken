@@ -10,11 +10,11 @@ abstract contract LedgerFiTokenStorage {
     address public immutable vestingTeamAddress;
     address public immutable vestingAdvisorsAddress;
     address public immutable vestingSeedSaleAddress;
-    address public immutable vestingPublicSaleAddress;
+
     address public immutable vestingCommunityAddress;
     address public immutable vestingMarketingAddress;
     address public immutable vestingEcosystemAddress;
-    address public immutable vestingExchangeAddress;
+
     address public immutable vestingPMLAddress;
 
     uint8 public immutable vestingTeamPercent;
@@ -29,6 +29,8 @@ abstract contract LedgerFiTokenStorage {
 
     address public immutable burnTokenAddress;
 
+    address public minterBurner;
+
     constructor() {
         maxSupply = 500000000 ether; //max supply  500 millions
         preMinedToken = 400000000 ether; //premined token count 400 millions
@@ -41,11 +43,11 @@ abstract contract LedgerFiTokenStorage {
         vestingTeamAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
         vestingAdvisorsAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
         vestingSeedSaleAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingPublicSaleAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
+
         vestingCommunityAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
         vestingMarketingAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
         vestingEcosystemAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingExchangeAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
+
         vestingPMLAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
 
         burnTokenAddress = 0x1FE48906040b2a180c14919FEa2cA0BD2B5fe97d;

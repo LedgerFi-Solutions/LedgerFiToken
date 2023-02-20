@@ -21,7 +21,24 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
         mintVesting(); // above % of token mined to each address
     }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    modifier onlyMintBurner() {
+        require(
+            minterBurner == msg.sender,
+            "Ownable: caller is not having the permission for Minting/Burning"
+        );
+
+        _;
+    }
+
+    function assignMinterBurner(address mintBurner) public onlyOwner {
+        require(
+            mintBurner != address(0),
+            "Mint Burn owner address should not be zero"
+        );
+        minterBurner = mintBurner;
+    }
+
+    function mint(address to, uint256 amount) public onlyMintBurner {
         require(
             totalSupply() + amount <= maxSupply,
             "Can't mint these many tokens, because it will cross the maximum supply"
@@ -32,7 +49,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
 
     //after each allocation balance token will be minted to a burnTokenAddress(contract) and
     ////if token to be burned is greater than threshold of burning .. it calls burning token function
-    function addBurnTokenCount(uint256 amount) public onlyOwner {
+    function addBurnTokenCount(uint256 amount) public onlyMintBurner {
         _mint(burnTokenAddress, amount);
 
         if (balanceOf(burnTokenAddress) >= burnThreshold) {
@@ -40,7 +57,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
         }
     }
 
-    function getBurnTokenCount() public view onlyOwner returns (uint256) {
+    function getBurnTokenCount() public view onlyMintBurner returns (uint256) {
         return balanceOf(burnTokenAddress);
     }
 
@@ -54,10 +71,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
             vestingSeedSaleAddress,
             (preMinedToken * vestingSeedSalePercent) / 100
         );
-        _mint(
-            vestingPublicSaleAddress,
-            (preMinedToken * vestingPublicSalePercent) / 100
-        );
+
         _mint(
             vestingCommunityAddress,
             (preMinedToken * vestingCommunityPercent) / 100
@@ -70,10 +84,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
             vestingEcosystemAddress,
             (preMinedToken * vestingEcosystemPercent) / 100
         );
-        _mint(
-            vestingExchangeAddress,
-            (preMinedToken * vestingExchangePercent) / 100
-        );
+
         _mint(vestingPMLAddress, (preMinedToken * vestingPMLPercent) / 100);
     }
 
