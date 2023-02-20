@@ -32,5 +32,5 @@ contract VestingStorage {
 
     mapping(address => TokenDetails) public teamMember;
     address internal _owner;
-    address public triggeringWallet;
+    address public releaserWallet;
 }

@@ -21,7 +21,7 @@ contract VestingMaster is Ownable {
 
     modifier onlyReleaser() {
         require(
-            triggeringWallet == msg.sender,
+            releaserWallet == msg.sender,
             "Ownable: caller is not having the permission for releasing"
         );
 

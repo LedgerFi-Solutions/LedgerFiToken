@@ -71,10 +71,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
             vestingSeedSaleAddress,
             (preMinedToken * vestingSeedSalePercent) / 100
         );
-        // _mint(
-        //     vestingPublicSaleAddress,
-        //     (preMinedToken * vestingPublicSalePercent) / 100
-        // );
+
         _mint(
             vestingCommunityAddress,
             (preMinedToken * vestingCommunityPercent) / 100
@@ -87,10 +84,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
             vestingEcosystemAddress,
             (preMinedToken * vestingEcosystemPercent) / 100
         );
-        // _mint(
-        //     vestingExchangeAddress,
-        //     (preMinedToken * vestingExchangePercent) / 100
-        // );
+
         _mint(vestingPMLAddress, (preMinedToken * vestingPMLPercent) / 100);
     }
 
