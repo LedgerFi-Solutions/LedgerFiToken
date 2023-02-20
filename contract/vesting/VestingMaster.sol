@@ -16,8 +16,25 @@ contract VestingMaster is Ownable {
 
     /*
     @dev Sets the value for ERC20 LFT token
-    Only owner can do that
+    Only owner can do that  
     */
+
+    modifier onlyReleaser() {
+        require(
+            triggeringWallet == msg.sender,
+            "Ownable: caller is not having the permission for releasing"
+        );
+
+        _;
+    }
+
+    function assignReleaser(address wallet) public onlyOwner {
+        require(
+            wallet != address(0),
+            "Triggering Wallet address should not be zero"
+        );
+        triggeringWallet = wallet;
+    }
 
     function IERC20address(IERC20 token) external onlyOwner {
         require(
@@ -170,7 +187,7 @@ contract VestingMaster is Ownable {
         }
     }
 
-    function release() public onlyOwner {
+    function release() public onlyReleaser {
         require(
             _token != IERC20(address(0)),
             "The current address of ERC20 contract is pointing to zero address."
