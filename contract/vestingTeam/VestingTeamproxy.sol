@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
-import "./vesting/AccessControl.sol";
+import "./../vesting/AccessControl.sol";
 
 //all state variables of team is initalised in this contract
 //
