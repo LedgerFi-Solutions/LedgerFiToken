@@ -31,5 +31,11 @@ contract VestingStorage {
     }
 
     mapping(address => TokenDetails) public teamMember;
-    address internal _owner;
+
+    struct Role {
+        mapping(address => bool) bearer;
+    }
+
+    Role _owner;
+    Role _releaserWallet;
 }

@@ -10,11 +10,9 @@ abstract contract LedgerFiTokenStorage {
     address public immutable vestingTeamAddress;
     address public immutable vestingAdvisorsAddress;
     address public immutable vestingSeedSaleAddress;
-    address public immutable vestingPublicSaleAddress;
     address public immutable vestingCommunityAddress;
     address public immutable vestingMarketingAddress;
     address public immutable vestingEcosystemAddress;
-    address public immutable vestingExchangeAddress;
     address public immutable vestingPMLAddress;
 
     uint8 public immutable vestingTeamPercent;
@@ -38,17 +36,15 @@ abstract contract LedgerFiTokenStorage {
         // Contract address in which all 9 take holders token stored on premining
         //some sample address assigned, it will be different for all..
 
-        vestingTeamAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingAdvisorsAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingSeedSaleAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingPublicSaleAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingCommunityAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingMarketingAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingEcosystemAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingExchangeAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
-        vestingPMLAddress = 0x88DE49ECf0c5da1dCADd8c24D2F4c4a71ee0c19B;
+        vestingTeamAddress = 0x22cf0b5E37ac801266BB3C4349b236e1d25b7f3E;
+        vestingAdvisorsAddress = 0xC9ae2A41D9911a65DbD6c4BE451a727074b583BF;
+        vestingSeedSaleAddress = 0xE88524f322b76069CA71F129e57E3Fcd7041BC5C;
+        vestingCommunityAddress = 0x1dc079802dcaC03a986218b151f6F34f178dC628;
+        vestingMarketingAddress = 0xb74b38ab404a23eA20Fa0f6e76C9cea240f3413B;
+        vestingEcosystemAddress = 0xE704584C3f41596E15b4dF312557e31F432402c1;
+        vestingPMLAddress = 0x97ee747d6E0bbBe8B0F765ADE860244787Ee9DED;
 
-        burnTokenAddress = 0x1FE48906040b2a180c14919FEa2cA0BD2B5fe97d;
+        burnTokenAddress = 0xc2ab51a8FBaf7f421A116dF8C395c44f12dF2958;
 
         // % of token premined for each stake holders
 

@@ -1,19 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
-import "./../vesting/VestingStorage.sol";
+import "./vesting/AccessControl.sol";
 
 //all state variables of team is initalised in this contract
 //
-contract VestingTeamproxy is VestingStorage {
+contract VestingTeamproxy is AccessControl {
     address public vestingTeamaddress;
 
-    constructor(address _VestingTeamaddress) {
+    constructor(address _VestingTeamaddress) AccessControl() {
         require(
             _VestingTeamaddress != address(0),
             "Zero address given for vesting"
         );
         vestingTeamaddress = _VestingTeamaddress;
-        _owner = msg.sender;
 
         //time period for vesting
         //already defined in the document
@@ -45,16 +44,8 @@ contract VestingTeamproxy is VestingStorage {
         totalNumberVesting = _totalNumberVesting;
     }
 
-    modifier restricted() {
-        require(
-            msg.sender == _owner,
-            "This function is restricted to the contract's owner"
-        );
-        _;
-    }
-
     //function for upgradable contract
-    function updateContractAddress(address child) external restricted {
+    function updateContractAddress(address child) external onlyOwner {
         require(
             child != address(0),
             "Cannot give zero address for vesting contract."

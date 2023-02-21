@@ -1,30 +1,32 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
-import "./Ownable.sol";
+import "./AccessControl.sol";
+
 import "./SafeERC20.sol";
 
 // this contract imported to contract of each stakeholders(here TEAM) which requires vesting..
 // all attributes are declared in Storage contract
 //VestingTeam, VestingTeamProxy, vestingStorage are used to make upgradable contract
-contract VestingMaster is Ownable {
+contract VestingMaster is AccessControl {
     using SafeERC20 for IERC20;
 
-    constructor() Ownable() {}
+    constructor() {}
 
     event TokenAssigned(address indexed teamMemberAddress, uint256 amount);
     event TokenReleased(address indexed teamMemberAddress, uint256 amount);
 
     /*
     @dev Sets the value for ERC20 LFT token
-    Only owner can do that
+    Only owner can do that  
     */
 
-    function IERC20address(IERC20 token) external onlyOwner {
+    function IERC20address(IERC20 token) external onlyOwner returns (IERC20) {
         require(
             token != IERC20(address(0)),
             "Zero address: Can't assign the given address as ERC20 token contract address"
         );
         _token = token;
+        return token;
     }
 
     /*
@@ -170,7 +172,7 @@ contract VestingMaster is Ownable {
         }
     }
 
-    function release() public onlyOwner {
+    function release() public onlyReleaser {
         require(
             _token != IERC20(address(0)),
             "The current address of ERC20 contract is pointing to zero address."

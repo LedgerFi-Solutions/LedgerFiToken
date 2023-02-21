@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 import "./ERC20Burnable.sol";
-import "./Ownable.sol";
+import "./AccessControl.sol";
 import "./LedgerFiTokenStorage.sol";
 
 //upgradable contract
 
-contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
+contract LedgerFiToken is ERC20Burnable, AccessControl, LedgerFiTokenStorage {
     mapping(address => bool) _blacklist;
 
     event BlacklistUpdated(address indexed user, bool value);
 
     constructor()
         ERC20("LedgerFi Token", "LFT", 18)
-        Ownable()
+        AccessControl()
         LedgerFiTokenStorage()
     {
         //check the LedgerFiStorage.sol for more info
@@ -21,7 +21,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
         mintVesting(); // above % of token mined to each address
     }
 
-    function mint(address to, uint256 amount) public onlyOwner {
+    function mint(address to, uint256 amount) public onlyMinterBurner {
         require(
             totalSupply() + amount <= maxSupply,
             "Can't mint these many tokens, because it will cross the maximum supply"
@@ -32,7 +32,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
 
     //after each allocation balance token will be minted to a burnTokenAddress(contract) and
     ////if token to be burned is greater than threshold of burning .. it calls burning token function
-    function addBurnTokenCount(uint256 amount) public onlyOwner {
+    function addBurnTokenCount(uint256 amount) public onlyMinterBurner {
         _mint(burnTokenAddress, amount);
 
         if (balanceOf(burnTokenAddress) >= burnThreshold) {
@@ -40,7 +40,12 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
         }
     }
 
-    function getBurnTokenCount() public view onlyOwner returns (uint256) {
+    function getBurnTokenCount()
+        public
+        view
+        onlyMinterBurner
+        returns (uint256)
+    {
         return balanceOf(burnTokenAddress);
     }
 
@@ -54,10 +59,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
             vestingSeedSaleAddress,
             (preMinedToken * vestingSeedSalePercent) / 100
         );
-        _mint(
-            vestingPublicSaleAddress,
-            (preMinedToken * vestingPublicSalePercent) / 100
-        );
+
         _mint(
             vestingCommunityAddress,
             (preMinedToken * vestingCommunityPercent) / 100
@@ -70,10 +72,7 @@ contract LedgerFiToken is ERC20Burnable, Ownable, LedgerFiTokenStorage {
             vestingEcosystemAddress,
             (preMinedToken * vestingEcosystemPercent) / 100
         );
-        _mint(
-            vestingExchangeAddress,
-            (preMinedToken * vestingExchangePercent) / 100
-        );
+
         _mint(vestingPMLAddress, (preMinedToken * vestingPMLPercent) / 100);
     }
 
