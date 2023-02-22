@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
-import "./AccessControl.sol";
+import "./RoleControl.sol";
 
 import "./SafeERC20.sol";
 
 // this contract imported to contract of each stakeholders(here TEAM) which requires vesting..
 // all attributes are declared in Storage contract
 //VestingTeam, VestingTeamProxy, vestingStorage are used to make upgradable contract
-contract VestingMaster is AccessControl {
+contract VestingMaster is RoleControl {
     using SafeERC20 for IERC20;
 
     constructor() {}

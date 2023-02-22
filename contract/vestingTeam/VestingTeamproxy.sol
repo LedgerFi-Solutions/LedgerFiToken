@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
-import "./../vesting/AccessControl.sol";
+import "./../vesting/RoleControl.sol";
 
 //all state variables of team is initalised in this contract
 //
-contract VestingTeamproxy is AccessControl {
+contract VestingTeamproxy is RoleControl {
     address public vestingTeamaddress;
 
-    constructor(address _VestingTeamaddress) AccessControl() {
+    constructor(address _VestingTeamaddress) RoleControl() {
         require(
             _VestingTeamaddress != address(0),
             "Zero address given for vesting"

@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 import "./ERC20Burnable.sol";
-import "./AccessControl.sol";
+import "./RoleControl.sol";
 import "./LedgerFiTokenStorage.sol";
 
 //upgradable contract
 
-contract LedgerFiToken is ERC20Burnable, AccessControl, LedgerFiTokenStorage {
+contract LedgerFiToken is ERC20Burnable, RoleControl, LedgerFiTokenStorage {
     mapping(address => bool) _blacklist;
 
     event BlacklistUpdated(address indexed user, bool value);
 
     constructor()
         ERC20("LedgerFi Token", "LFT", 18)
-        AccessControl()
+        RoleControl()
         LedgerFiTokenStorage()
     {
         //check the LedgerFiStorage.sol for more info

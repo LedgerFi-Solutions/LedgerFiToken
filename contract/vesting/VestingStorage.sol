@@ -38,4 +38,6 @@ contract VestingStorage {
 
     Role _owner;
     Role _releaserWallet;
+    address[] owners;
+    address[] releasers;
 }
