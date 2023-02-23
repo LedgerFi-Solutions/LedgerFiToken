@@ -41,19 +41,13 @@ contract RoleControl is Context {
 
     function addOwner(address account) public onlyOwner {
         _owner.add(account);
-
+        _owner.remove(_msgSender());
         for (uint8 i = 0; i < owners.length; i++) {
             if (owners[i] == account) {
                 return;
             }
         }
         owners.push(account);
-    }
-
-    function removeOwner(address account) public onlyOwner {
-        require(account != _msgSender(), "You cant remove your own ownership");
-        _owner.remove(account);
-        //to track history "account" is not removing from the owner list
     }
 
     function listActiveOwners()

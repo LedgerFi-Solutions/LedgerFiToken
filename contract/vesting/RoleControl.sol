@@ -3,19 +3,25 @@
 pragma solidity 0.8.16;
 import "./Context.sol";
 import "./Roles.sol";
+import "./VestingStorage.sol";
 
-contract RoleControl is Context, Roles {
+contract RoleControl is Context, VestingStorage {
+    using Roles for Roles.Role;
+
+    Roles.Role _owner;
+    Roles.Role _releaserWallet;
+
     constructor() {
-        add(_owner, _msgSender());
+        _owner.add(_msgSender());
         owners.push(_msgSender());
-        add(_releaserWallet, _msgSender());
+        _releaserWallet.add(_msgSender());
         releasers.push(_msgSender());
     }
 
     modifier onlyOwner() {
         require(
             isOwner(_msgSender()),
-            "OwnerRole:- caller does not have the Owner role"
+            "OwnerRole: caller does not have the Owner role"
         );
         _;
     }
@@ -29,22 +35,18 @@ contract RoleControl is Context, Roles {
     }
 
     function isOwner(address account) public view returns (bool) {
-        return has(_owner, account);
+        return _owner.has(account);
     }
 
     function addOwner(address account) public onlyOwner {
-        add(_owner, account);
+        _owner.add(account);
+        _owner.remove(_msgSender());
         for (uint8 i = 0; i < owners.length; i++) {
             if (owners[i] == account) {
                 return;
             }
         }
         owners.push(account);
-    }
-
-    function removeOwner(address account) public onlyOwner {
-        require(account != _msgSender(), "You cant remove your own ownership");
-        remove(_owner, account);
     }
 
     function listActiveOwners()
@@ -98,11 +100,11 @@ contract RoleControl is Context, Roles {
     }
 
     function isReleaser(address account) public view returns (bool) {
-        return has(_releaserWallet, account);
+        return _releaserWallet.has(account);
     }
 
     function addReleaser(address account) public onlyOwner {
-        add(_releaserWallet, account);
+        _releaserWallet.add(account);
 
         for (uint8 i = 0; i < releasers.length; i++) {
             if (releasers[i] == account) {
@@ -113,7 +115,7 @@ contract RoleControl is Context, Roles {
     }
 
     function removeReleaser(address account) public onlyOwner {
-        remove(_releaserWallet, account);
+        _releaserWallet.remove(account);
     }
 
     function listActiveReleasers()

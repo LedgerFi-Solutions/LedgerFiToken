@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MIT
-import "./VestingStorage.sol";
+
 pragma solidity 0.8.16;
 
 /**
  * @title Roles
  * @dev Library for managing addresses assigned to a Role.
  */
-abstract contract Roles is VestingStorage {
+library Roles {
+    struct Role {
+        mapping(address => bool) bearer;
+    }
+
     /**
      * @dev Give an account access to this role.
      */
