@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.16;
 import "./../vesting/VestingMaster.sol";
-import "./../vesting/Ownable.sol";
+
 import "./../vesting/SafeERC20.sol";
 
 //this contract is for doing vesting on Marketing.. which import vestingMaster contract.
@@ -9,6 +9,6 @@ import "./../vesting/SafeERC20.sol";
 //all state variable are declared is vestingStorage
 //VestingMarketing, VestingMarketingProxy, vestingStorage are used to make upgradable contract
 
-contract VestingMarketing is Ownable, VestingMaster {
+contract VestingMarketing is VestingMaster {
     constructor() VestingMaster() {}
 }
