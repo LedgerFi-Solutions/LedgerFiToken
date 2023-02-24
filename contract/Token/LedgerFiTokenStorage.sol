@@ -36,15 +36,21 @@ abstract contract LedgerFiTokenStorage {
         // Contract address in which all 9 take holders token stored on premining
         //some sample address assigned, it will be different for all..
 
-        vestingTeamAddress = 0x22cf0b5E37ac801266BB3C4349b236e1d25b7f3E;
-        vestingAdvisorsAddress = 0xC9ae2A41D9911a65DbD6c4BE451a727074b583BF;
-        vestingSeedSaleAddress = 0xE88524f322b76069CA71F129e57E3Fcd7041BC5C;
-        vestingCommunityAddress = 0x1dc079802dcaC03a986218b151f6F34f178dC628;
-        vestingMarketingAddress = 0xb74b38ab404a23eA20Fa0f6e76C9cea240f3413B;
-        vestingEcosystemAddress = 0xE704584C3f41596E15b4dF312557e31F432402c1;
-        vestingPMLAddress = 0x97ee747d6E0bbBe8B0F765ADE860244787Ee9DED;
+        vestingTeamAddress = 0x9b874C147a4a95Bb843568BEeD8cF38106118Fca; //
 
-        burnTokenAddress = 0xc2ab51a8FBaf7f421A116dF8C395c44f12dF2958;
+        vestingAdvisorsAddress = 0x278d005b9BFf3e5fe6E03A9C8A78f8AacF7C4639; //
+
+        vestingSeedSaleAddress = 0xd4b149aBbA8058cf003919659b78A4C982Ad8e30; //
+
+        vestingCommunityAddress = 0xb159A6460C764fEa791174a3ddA2889966Db3a88; //
+
+        vestingMarketingAddress = 0x524D1487564c27ab29F07D59f04B4FB251574983; //
+
+        vestingEcosystemAddress = 0x9D77CbA8B23C6d7B9B40A6409aC514E3253213ce; //
+
+        vestingPMLAddress = 0x6BD21Cf8eab4A913A5D7dc4130045e830C41F736; //
+
+        burnTokenAddress = 0xF011a8dB1DA611256d78fFB600EfF2ef938FB687;
 
         // % of token premined for each stake holders
 
