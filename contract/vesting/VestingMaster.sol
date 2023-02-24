@@ -58,6 +58,10 @@ contract VestingMaster is RoleControl {
         onlyOwner
         returns (uint256)
     {
+        require(
+            _token != IERC20(address(0)),
+            "The current address of ERC20 contract is pointing to zero address."
+        );
         uint256 totalToken = _token.balanceOf(address(this));
         return (totalToken - totalAssignedToken);
     }
